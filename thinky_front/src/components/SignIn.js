@@ -38,6 +38,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+// constructor(props) {
+// 	super(props);
+// 	this.state = {
+// 		whies: [],
+// 	};
+// }
+
+// componentDidMount() {
+// 	axios
+// 		.post("http://localhost:3001/v1/sessions/create")
+// 		.then((results) => {
+// 			console.log(results);
+// 			this.setState({ whies: results.data });
+// 		})
+// 		.catch((data) => {
+// 			console.log(data);
+// 		});
+// }
+
 export default function SignIn() {
   const classes = useStyles()
 
