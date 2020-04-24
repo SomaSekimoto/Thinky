@@ -7,9 +7,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 // Import Components
 import Home from "./Home.js"
 import Layout from "./Layout"
-// import SignUp from "./SignUp";
-// import SignIn from "./SignIn";
-// import UserEdit from "./UserEdit";
+import SignUp from "./SignUp"
+// import SignIn from "./components/SignIn";
 import UserMypage from "./UserMypage"
 import EveryoneWhy from "./EveryoneWhy"
 import PrivateChat from "./PrivateChat"

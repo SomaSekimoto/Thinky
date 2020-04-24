@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  homeBtn: {
+  link: {
     textDecoration: "none",
     color: "white",
   },
@@ -45,11 +45,15 @@ export default function Header() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/home" className={classes.homeBtn}>
+            <Link to="/home" className={classes.link}>
               Thinky
             </Link>
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">
+            <Link to="/signup" className={classes.link}>
+              Login
+            </Link>
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
