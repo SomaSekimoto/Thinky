@@ -15,16 +15,11 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import axios from "axios"
+import { useHistory } from "react-router-dom"
+import { withRouter } from "react-router-dom"
 
 // Import Components
 import Copyright from "./Copyright"
-
-// constructor(props) {
-// 	super(props);
-// 	this.state = {
-// 		whies: [],
-// 	};
-// }
 
 // componentDidMount() {
 // 	axios
@@ -58,7 +53,7 @@ import Copyright from "./Copyright"
 //   },
 // }))
 
-export default class SignUp extends React.Component {
+class SignUp extends React.Component {
   // const classes = useStyles()
 
   constructor(props) {
@@ -66,36 +61,60 @@ export default class SignUp extends React.Component {
     this.state = {
       email: "",
       password: "",
+      registrationError: "",
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+    console.log("constructor now!")
   }
 
-  handleSignUp = (e) => {
+  componentDidMount() {
+    console.log("componentDidMount now!")
+  }
+
+  componentDidUpdate() {
+    console.log("componentDidUpdate now!")
+  }
+
+  shouldComponentUpdate() {
+    console.log("shouldComponentUpdate now!")
+    return true
+  }
+
+  handleSuccessfulAuth(data) {
+    this.history.push("/home")
+  }
+
+  handleSubmit = (e) => {
+    console.log("handleSubmitting", e)
     e.preventDefault()
     // stateからemailとpasswordを取得する
-    console.log(this.state)
+    // console.log(this.state)
     const { email, password } = this.state
 
     axios
-      .post("http://localhost:3001/v1/users", { email, password })
-      .then((results) => {
-        console.log(results)
-        // this.setState({ users: results.data })
-      })
-      .catch((data) => {
-        console.log(data)
-      })
+      .post(
+        "http://localhost:3001/v1/users",
+        {
+          email: email,
+          password: password,
+        }
+        // { withCredentials: true }
+      )
+      .then((response) => {
+        console.log(response)
+        if (response.statusText === "OK") {
+          this.handleSuccessfulAuth(response.data)
+        }
 
-    // // 4. firebaseにemailとpasswordをPOST
-    // firebase
-    //   .auth()
-    //   .createUserWithEmailAndPassword(email, password)
-    //   .then((user) => {
-    //     console.log(user)
-    //     this.setState({ email: null, password: null })
-    //   })
-    //   .catch((error) => {
-    //     console.log("firebase error", error)
-    //   })
+        // this.setState({ user1: results.data })
+        // const user2 = this.state.user1
+        // console.log(user2)
+        // this.e.history.push("/home", { user3: user2 })
+      })
+      .catch((error) => {
+        console.log("registration error", error)
+      })
   }
 
   // componentDidMount() {
@@ -121,7 +140,7 @@ export default class SignUp extends React.Component {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <form noValidate>
+          <form noValidate onSubmit={this.handleSubmit}>
             <Grid container spacing={2}>
               {/* <Grid item xs={12}>
 								<TextField
@@ -155,6 +174,7 @@ export default class SignUp extends React.Component {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={this.state.value}
                   onChange={(e) => this.setState({ email: e.target.value })}
                 />
               </Grid>
@@ -183,7 +203,7 @@ export default class SignUp extends React.Component {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    onClick={(e) => this.handleSignUp(e)}
+                    // onClick={(e) => this.handleSignUp(e)}
                   >
                     Sign up
                   </Button>
@@ -240,3 +260,5 @@ export default class SignUp extends React.Component {
 //   const response = await axios.post("http://localhost:3001/v1/users", {params: {:email,}})
 //   dispatch({ type: CREATE, response })
 // }
+
+export default withRouter(SignUp)

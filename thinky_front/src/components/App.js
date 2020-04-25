@@ -15,6 +15,10 @@ import PrivateChat from "./PrivateChat"
 import UserEdit from "./UserEdit"
 
 function App() {
+  const [loggedInStatus, setLoggedInStatus] = useState("NOT_LOGGED_IN")
+
+  const [user, setUser] = useState({})
+
   return (
     <Router>
       <Layout>
@@ -24,6 +28,11 @@ function App() {
           <Route exact={true} path="/share" component={EveryoneWhy} />
           <Route exact={true} path="/mypage" component={UserMypage} />
           <Route exact={true} path="/userEdit" component={UserEdit} />
+          <Route
+            path="/signup"
+            // component={SignUp}
+            render={(props) => <SignUp {...props} />}
+          />
         </Switch>
       </Layout>
     </Router>
