@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   include AbstractController::Translation
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  # before_action :authenticate_user_from_token!
+  before_action :authenticate_user_from_token!
 
   respond_to :json
 

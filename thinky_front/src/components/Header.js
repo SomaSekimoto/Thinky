@@ -50,7 +50,7 @@ export default function Header() {
             </Link>
           </Typography>
           <Button color="inherit">
-            <Link to="/signup" className={classes.link}>
+            <Link to="/signin" className={classes.link}>
               Login
             </Link>
           </Button>

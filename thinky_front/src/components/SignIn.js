@@ -1,5 +1,7 @@
 // Import Packages
 import React from "react"
+import { Link, withRouter } from "react-router-dom"
+import axios from "axios"
 
 // Import Styles
 import Avatar from "@material-ui/core/Avatar"
@@ -18,163 +20,164 @@ import Container from "@material-ui/core/Container"
 // Import Components
 import Copyright from "./Copyright"
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
+// const useStyles = makeStyles((theme) => ({
+//   paper: {
+//     marginTop: theme.spacing(8),
+//     display: "flex",
+//     flexDirection: "column",
+//     alignItems: "center",
+//   },
+//   avatar: {
+//     margin: theme.spacing(1),
+//     backgroundColor: theme.palette.secondary.main,
+//   },
+//   form: {
+//     width: "100%", // Fix IE 11 issue.
+//     marginTop: theme.spacing(3),
+//   },
+//   submit: {
+//     margin: theme.spacing(3, 0, 2),
+//   },
+// }))
 
-// constructor(props) {
-// 	super(props);
-// 	this.state = {
-// 		whies: [],
-// 	};
-// }
+class SignIn extends React.Component {
+  // const classes = useStyles()
+  constructor(props) {
+    super(props)
+    this.state = {
+      email: "",
+      password: "",
+      loginError: "",
+    }
 
-// componentDidMount() {
-// 	axios
-// 		.post("http://localhost:3001/v1/sessions/create")
-// 		.then((results) => {
-// 			console.log(results);
-// 			this.setState({ whies: results.data });
-// 		})
-// 		.catch((data) => {
-// 			console.log(data);
-// 		});
-// }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    console.log("constructor now!")
+  }
 
-export default function SignIn() {
-  const classes = useStyles()
+  componentDidMount() {
+    console.log("componentDidMount now!")
+  }
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            {/* <Grid item xs={12}>
-              <TextField
-                autoComplete="name"
-                name="Name"
-                variant="outlined"
-                required
-                fullWidth
-                id="Name"
-                label="Name"
-                autoFocus
-              />
-            </Grid> */}
-            {/* <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid> */}
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-            <Grid
-              container
-              // direction="column"
-              justify="center"
-              // alignItems="center"
-              xs={12}
-            >
-              <Grid xs={6}>
-                <Button
-                  type="submit"
+  componentDidUpdate() {
+    console.log("componentDidUpdate now!")
+  }
+
+  shouldComponentUpdate() {
+    console.log("shouldComponentUpdate now!")
+    return true
+  }
+
+  handleSuccessfulAuth(data) {
+    this.props.handleLogin(data)
+    this.props.history.push("/home")
+  }
+
+  handleSubmit = (e) => {
+    console.log("handleSubmitting", e)
+    e.preventDefault()
+    // stateからemailとpasswordを取得する
+    const { email, password } = this.state
+
+    axios
+      .post(
+        "http://localhost:3001/v1/login",
+        {
+          email: email,
+          password: password,
+        }
+        // { withCredentials: true }
+      )
+      .then((response) => {
+        console.log(response)
+        if (response.statusText === "OK") {
+          this.handleSuccessfulAuth(response.data)
+        }
+      })
+      .catch((error) => {
+        console.log("login error", error)
+      })
+  }
+
+  render() {
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div>
+          <Avatar>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form noValidate onSubmit={this.handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
                   fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >
-                  Sign in
-                </Button>
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  value={this.state.value}
+                  onChange={(e) => this.setState({ email: e.target.value })}
+                />
               </Grid>
-            </Grid>
-
-            {/* <Grid
-              container
-              // direction="column"
-              justify="center"
-              // alignItems="center"
-              xs={12}
-            >
-              <Grid xs={6}>
-                <Button
-                  href="#"
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
                   fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >
-                  Cansel
-                </Button>
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={this.state.value}
+                  onChange={(e) => this.setState({ password: e.target.value })}
+                />
               </Grid>
-            </Grid> */}
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+              <Grid
+                container
+                // direction="column"
+                justify="center"
+                // alignItems="center"
+                item
+                xs={12}
+              >
+                <Grid item xs={6}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                  >
+                    Log in
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+              <Grid container>
+                <Grid item xs>
+                  <Link to="/signin" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link to="/signup" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
-  )
+          </form>
+        </div>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Container>
+    )
+  }
 }
+
+export default withRouter(SignIn)
