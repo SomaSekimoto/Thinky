@@ -1,5 +1,7 @@
 // Import Packages
 import React from "react"
+import { Link, withRouter } from "react-router-dom"
+import axios from "axios"
 
 // Import Styles
 import Avatar from "@material-ui/core/Avatar"
@@ -14,24 +16,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
-import axios from "axios"
-import { useHistory } from "react-router-dom"
-import { withRouter } from "react-router-dom"
 
 // Import Components
 import Copyright from "./Copyright"
-
-// componentDidMount() {
-// 	axios
-// 		.post("http://localhost:3001/v1/users/create")
-// 		.then((results) => {
-// 			console.log(results);
-// 			this.setState({ whies: results.data });
-// 		})
-// 		.catch((data) => {
-// 			console.log(data);
-// 		});
-// }
 
 // const useStyles = makeStyles((theme) => ({
 //   paper: {
@@ -82,14 +69,14 @@ class SignUp extends React.Component {
   }
 
   handleSuccessfulAuth(data) {
-    this.history.push("/home")
+    this.props.handleLogin(data)
+    this.props.history.push("/home")
   }
 
   handleSubmit = (e) => {
     console.log("handleSubmitting", e)
     e.preventDefault()
     // stateからemailとpasswordを取得する
-    // console.log(this.state)
     const { email, password } = this.state
 
     axios
@@ -106,28 +93,11 @@ class SignUp extends React.Component {
         if (response.statusText === "OK") {
           this.handleSuccessfulAuth(response.data)
         }
-
-        // this.setState({ user1: results.data })
-        // const user2 = this.state.user1
-        // console.log(user2)
-        // this.e.history.push("/home", { user3: user2 })
       })
       .catch((error) => {
         console.log("registration error", error)
       })
   }
-
-  // componentDidMount() {
-  //   axios
-  //     .post("http://localhost:3001/v1/users", {})
-  //     .then((results) => {
-  //       console.log(results)
-  //       // this.setState({ users: results.data })
-  //     })
-  //     .catch((data) => {
-  //       console.log(data)
-  //     })
-  // }
 
   render() {
     return (
@@ -142,29 +112,6 @@ class SignUp extends React.Component {
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
             <Grid container spacing={2}>
-              {/* <Grid item xs={12}>
-								<TextField
-									autoComplete="name"
-									name="Name"
-									variant="outlined"
-									required
-									fullWidth
-									id="Name"
-									label="Name"
-									autoFocus
-								/>
-							</Grid> */}
-              {/* <Grid item xs={12} sm={6}>
-								<TextField
-									variant="outlined"
-									required
-									fullWidth
-									id="lastName"
-									label="Last Name"
-									name="lastName"
-									autoComplete="lname"
-								/>
-							</Grid> */}
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
@@ -209,35 +156,10 @@ class SignUp extends React.Component {
                   </Button>
                 </Grid>
               </Grid>
-
-              {/* <Grid
-								container
-								// direction="column"
-								justify="center"
-								// alignItems="center"
-								xs={12}
-							>
-								<Grid xs={6}>
-									<Button
-										href="#"
-										fullWidth
-										variant="contained"
-										color="primary"
-										className={classes.submit}
-									>
-										Cansel
-									</Button>
-								</Grid>
-							</Grid> */}
             </Grid>
             <Grid container>
-              {/* <Grid item xs>
-								<Link href="#" variant="body2">
-									Forgot password?
-								</Link>
-							</Grid> */}
               <Grid item style={{ margin: "0 auto" }}>
-                <Link href="#" variant="body2">
+                <Link to="/signin" variant="body2">
                   {"Already have an account? Sign In"}
                 </Link>
               </Grid>
@@ -251,14 +173,5 @@ class SignUp extends React.Component {
     )
   }
 }
-
-// export const CREATE = "CREATE"
-
-// export const create = (value) => async (dispatch) => {
-//   axios.defaults.withCredentials = true
-//   axios.defaults.headers.common["Content-Type"] = "application/json"
-//   const response = await axios.post("http://localhost:3001/v1/users", {params: {:email,}})
-//   dispatch({ type: CREATE, response })
-// }
 
 export default withRouter(SignUp)
