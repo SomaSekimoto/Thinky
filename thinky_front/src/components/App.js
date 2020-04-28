@@ -18,32 +18,32 @@ function App(props) {
 
   const [user, setUser] = useState({})
 
-  // const checkLoginStatus = (user) => {
-  //   console.log("checkLoginStatus", user)
-  //   const aaa = user
-  //   console.log("user state", aaa.id)
+  const checkLoginStatus = (user) => {
+    console.log("checkLoginStatus", user)
+    const aaa = user
+    console.log("user state", aaa.id)
 
-  //   axios
-  //     .get("http://localhost:3001/v1/logged_in", {
-  //       params: { user_id: aaa.id },
-  //     })
-  //     .then((response) => {
-  //       if (response.data && loggedInStatus === "LOGIN_SUCCESS1") {
-  //         console.log("login status", response)
-  //         setLoggedInStatus("LOGIN_SUCCESS2")
-  //         setUser(response.data)
-  //       } else if (!response.data & (loggedInStatus === "LOGIN_SUCCESS1")) {
-  //         console.log("else if login status", response)
-  //         setLoggedInStatus("NOT_LOGGED_IN2")
-  //         setUser({})
-  //       } else {
-  //         console.log("wakaran")
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log("login status error", error)
-  //     })
-  // }
+    axios
+      .get("http://localhost:3001/v1/logged_in", {
+        params: { user_id: aaa.id },
+      })
+      .then((response) => {
+        if (response.data && loggedInStatus === "LOGIN_SUCCESS1") {
+          console.log("login status", response)
+          setLoggedInStatus("LOGIN_SUCCESS2")
+          setUser(response.data)
+        } else if (!response.data & (loggedInStatus === "LOGIN_SUCCESS1")) {
+          console.log("else if login status", response)
+          setLoggedInStatus("NOT_LOGGED_IN2")
+          setUser({})
+        } else {
+          console.log("wakaran")
+        }
+      })
+      .catch((error) => {
+        console.log("login status error", error)
+      })
+  }
 
   const handleLogin = (user) => {
     setLoggedInStatus("LOGIN_SUCCESS1")
@@ -54,10 +54,10 @@ function App(props) {
     // console.log(storage)
   }
 
-  // useEffect(() => {
-  //   console.log("useEffect", user)
-  //   checkLoginStatus(user)
-  // })
+  useEffect(() => {
+    console.log("useEffect", user)
+    checkLoginStatus(user)
+  })
 
   console.log("after signin", user)
   console.log(loggedInStatus)
