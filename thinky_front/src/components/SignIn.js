@@ -69,7 +69,8 @@ class SignIn extends React.Component {
 
   handleSuccessfulAuth(data) {
     this.props.handleLogin(data)
-    this.props.history.push("/home")
+    this.props.history.push({ pathname: "/home", state: { user: data } })
+    // this.props.history.push("/home")
   }
 
   handleSubmit = (e) => {

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :v1, defaults: { format: :json } do
     resource :login, only: [:create], controller: :sessions
     resource :users, only: [:create]
+    get :logged_in, to: "sessions#logged_in"
   end
   
   get 'whies/index'

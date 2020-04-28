@@ -15,6 +15,14 @@ module V1
       end
     end
 
+    def logged_in
+      @user = User.find_for_database_authentication(id: params[:user_id])
+      render json: @user, serializer: SessionSerializer, root: nil
+      # else
+      #   render json: {error: t('invalid_email')} 
+      # end
+    end
+
     private
 
     def invalid_email
