@@ -68,10 +68,12 @@ const useStyles = makeStyles({
   },
 })
 
-function Home() {
+function Home(props) {
   const home = useStyles()
 
   const [isOpen, setIsOpen] = useState(false)
+
+  const user = props.location.state
 
   return (
     <div className={home.home}>

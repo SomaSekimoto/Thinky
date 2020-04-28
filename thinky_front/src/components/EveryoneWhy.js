@@ -1,6 +1,7 @@
 // Import Packages
 import React, { useState, useEffect } from "react"
 import axios from "axios"
+import { withRouter } from "react-router-dom"
 
 // Import Styles
 import { makeStyles } from "@material-ui/core/styles"
@@ -15,11 +16,13 @@ import EveryoneWhyStyle from "../styles/EveryoneWhy.module.scss"
 // Import Components
 import WhiesList from "./WhiesList"
 
-export default function EveryoneWhy() {
+function EveryoneWhy() {
   const classes = useStyles()
   const [genreId, setGenreId] = useState(``)
 
   const [text, setText] = useState("")
+
+  const [user, setUser] = useState()
 
   const [whies, setWhies] = useState([])
   useEffect(() => {
@@ -109,3 +112,5 @@ const btnStyle = {
   height: "50px",
   width: "100px",
 }
+
+export default withRouter(EveryoneWhy)
